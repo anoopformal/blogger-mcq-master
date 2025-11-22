@@ -234,5 +234,47 @@ body{
 /* small helper classes you might have used */
 .hide{display:none}
 .center{text-align:center}
+/* ===== Summary Table ===== */
+.summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+.summary-table th,
+.summary-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.summary-table th {
+  background: #f4f4f4;
+  font-weight: bold;
+}
+
+/* ===== Graph Container ===== */
+#graph-container {
+  width: 100%;
+  margin-top: 20px;
+  text-align: center;
+}
+
+#score-graph {
+  width: 100%;
+  max-width: 600px;
+  height: 300px;
+}
+
+/* ===== Hide fullscreen button after start ===== */
+.hide {
+  display: none !important;
+}
+
+/* Disable text selection */
+body, .test-container {
+  user-select: none;
+}
 
 /* end of master.css */
