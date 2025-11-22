@@ -1,5 +1,5 @@
 /* ================== CONFIG ================== */
-let examDuration = 600; // total seconds
+let examDuration = 600;
 let negativeMark = -0.25;
 let tabWarningMessage = "Tab switch detected! Stay on the test screen.";
 /* ============================================= */
@@ -12,19 +12,24 @@ document.addEventListener("visibilitychange", () => {
     switchedTabCount++;
     alert(tabWarningMessage);
   }
- });
+});
 
+/* FULLSCREEN */
 function goFullScreen() {
   if (document.documentElement.requestFullscreen) {
     document.documentElement.requestFullscreen();
   }
 }
+function exitFullScreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  }
+}
 
-/* Shuffle Utility */
+/* Shuffle */
 function shuffleArray(arr) {
   return arr.sort(() => Math.random() - 0.5);
 }
-
 function shuffleOptions(question) {
   let opts = Array.from(question.querySelectorAll(".option-container"));
   shuffleArray(opts);
@@ -38,11 +43,9 @@ function startTest() {
   let qArea = document.getElementById("questions-area");
   let questions = Array.from(document.querySelectorAll(".question-box"));
 
-  // Shuffle questions
   shuffleArray(questions);
   questions.forEach(q => qArea.appendChild(q));
 
-  // Shuffle the options of each question
   questions.forEach(q => shuffleOptions(q));
 
   startTimer();
@@ -70,49 +73,61 @@ function startTimer() {
 
 /* SUBMIT TEST */
 function submitTest() {
+  exitFullScreen(); // auto exit on submit
+
   let questions = document.querySelectorAll(".question-box");
   let score = 0, correct = 0, wrong = 0;
 
-  questions.forEach((q, index) => {
+  let tableRows = ""; // for summary table
 
+  questions.forEach((q, index) => {
+    let qNum = index + 1;
     let correctAns = q.dataset.answer;
     let selected = q.querySelector("input:checked");
 
-    // Disable options
     q.querySelectorAll("input").forEach(inp => inp.disabled = true);
+
+    let yourAns = selected ? selected.value : "-";
+
+    // row result
+    let resultText = "";
 
     if (selected) {
       if (selected.value === correctAns) {
         score += 1;
         correct++;
+        resultText = "Correct";
 
-        // Mark correct visually
         selected.closest(".option-container").classList.add("correct-answer");
-
       } else {
         score += negativeMark;
         wrong++;
+        resultText = "Wrong";
 
-        // Mark selected wrong
         selected.closest(".option-container").classList.add("wrong-answer");
-
-        // Mark correct option
         q.querySelector(`input[value="${correctAns}"]`)
-          .closest(".option-container")
-          .classList.add("correct-answer");
+          .closest(".option-container").classList.add("correct-answer");
       }
     } else {
-      // No attempt → show correct answer only
+      resultText = "Not Attempted";
       q.querySelector(`input[value="${correctAns}"]`)
-        .closest(".option-container")
-        .classList.add("correct-answer");
+        .closest(".option-container").classList.add("correct-answer");
     }
 
+    // Add row to summary table
+    tableRows += `
+      <tr>
+        <td>${qNum}</td>
+        <td>${yourAns.toUpperCase()}</td>
+        <td>${correctAns.toUpperCase()}</td>
+        <td>${resultText}</td>
+      </tr>
+    `;
   });
 
   let percent = ((score / questions.length) * 100).toFixed(2);
 
-  // RESULT AREA
+  // FINAL RESULT HTML (includes summary + graph + table)
   let res = document.getElementById("result-box");
   res.innerHTML = `
     <h3>Detailed Results</h3>
@@ -131,10 +146,23 @@ function submitTest() {
       </div>
     </div>
 
-    <div class="negative-note">Negative marking applied: ${negativeMark} per wrong answer</div>
+    <h3 style="margin-top:18px;">Summary Table</h3>
+    <table class="result-table">
+      <tr>
+        <th>Q.No</th>
+        <th>Your Ans</th>
+        <th>Correct</th>
+        <th>Result</th>
+      </tr>
+      ${tableRows}
+    </table>
+
+    <div class="negative-note">
+      Negative Marking: ${negativeMark} per wrong answer
+    </div>
   `;
 
-  // animate percent bar
+  // animate graph bar
   setTimeout(() => {
     document.getElementById("percentFill").style.width = percent + "%";
   }, 150);
