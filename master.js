@@ -62,11 +62,25 @@
     else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
     else if (el.msRequestFullscreen) el.msRequestFullscreen && el.msRequestFullscreen();
   }
-  function exitFullscreen() {
-    if (document.exitFullscreen) document.exitFullscreen();
-    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-    else if (document.msExitFullscreen) document.msExitFullscreen && document.msExitFullscreen();
+function exitFullscreen(){
+  try {
+    var active = document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+    if (active) {
+      if (document.exitFullscreen) {
+        // exitFullscreen returns a promise — handle rejection silently
+        document.exitFullscreen().catch(function () { /* ignore */ });
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
+    }
+  } catch (err) {
+    // defensive: ignore any errors
+    console.warn('exitFullscreen error ignored', err);
   }
+}
+
 
   // Hide common Blogger controls (best-effort)
   function hideBloggerControls() {
@@ -81,22 +95,29 @@
   }
 
   // Deselectable radio behavior: clicking same option toggles it off
-  function enableDeselectableOptions() {
-    document.querySelectorAll('.option-container').forEach(function (container) {
-      var input = container.querySelector('input[type="radio"]');
-      if (!input) return;
-      container.addEventListener('click', function (e) {
-        // If clicked directly on input, allow default
-        if (input.checked) {
-          input.checked = false;
-          // Prevent double toggling that browsers sometimes do
-          e.preventDefault && e.preventDefault();
-        } else {
-          input.checked = true;
-        }
-      });
+function enableDeselectableOptions() {
+  document.querySelectorAll('.option-container').forEach(function (container) {
+    var input = container.querySelector('input[type="radio"]');
+    if (!input) return;
+
+    container.addEventListener('click', function (e) {
+      // If the user clicked an interactive nested element (like a link), ignore
+      if (e.target && (e.target.tagName === 'A' || e.target.tagName === 'BUTTON')) return;
+
+      // If the radio is already checked, uncheck it and prevent the browser from re-checking it
+      if (input.checked) {
+        input.checked = false;
+        // Prevent default label toggling which would immediately re-check it in some browsers
+        e.preventDefault();
+        e.stopPropagation();
+      } else {
+        // Let the browser check it normally (no need to set input.checked = true in all cases)
+        input.checked = true;
+      }
     });
-  }
+  });
+}
+
 
   // Submit function — exported to window so onclick handlers on pages keep working
   window.submitTest = function submitTest() {
