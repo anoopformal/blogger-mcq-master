@@ -108,3 +108,11 @@ button:hover { background-color: #1976D2; }
   .summary-box { flex-direction: column; }
   .circle { width: 70px; height: 70px; font-size: 14px; }
 }
+/* Fix for deselectable radio behavior */
+.option-label {
+  pointer-events: none;
+}
+
+.option-container {
+  pointer-events: auto;
+}
