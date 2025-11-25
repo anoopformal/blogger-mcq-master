@@ -97,10 +97,7 @@ button {
   transition: background-color 0.3s ease;
 }
 button:hover { background-color: #1976D2; }
-@media (max-width: 600px) {
-  .summary-box { flex-direction: column; }
-  .circle { width: 70px; height: 70px; font-size: 14px; }
-}
+
 .circle:hover { transform: scale(1.05); }
     .circle {
       width: 80px;
