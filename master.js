@@ -1,31 +1,31 @@
 <script type="text/javascript">
 // Existing timer and test submission logic
-var correctAnswers = {
-q1: "c",
-  q2: "b",
-  q3: "b",
-  q4: "b",
-  q5: "d",
-  q6: "d",
-  q7: "c",
-  q8: "d",
-  q9: "c",
-  q10: "b",
-q11: "b",
-q12: "d",
-q13: "a",
-q14: "b",
-q15: "c",
-q16: "c",
-q17: "b",
-q18: "c",
-q19: "a",
-q20: "c"
+// var correctAnswers = {
+// q1: "c",
+//   q2: "b",
+//   q3: "b",
+//   q4: "b",
+//   q5: "d",
+//   q6: "d",
+//   q7: "c",
+//   q8: "d",
+//   q9: "c",
+//   q10: "b",
+// q11: "b",
+// q12: "d",
+// q13: "a",
+// q14: "b",
+// q15: "c",
+// q16: "c",
+// q17: "b",
+// q18: "c",
+// q19: "a",
+// q20: "c"
 
 
 
 
-};
+// };
 
 <!-- TIMER SCRIPT -->
   var timeLeft = 1200; // 20 minutes
