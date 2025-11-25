@@ -27,7 +27,7 @@
 
 // };
 
-<!-- TIMER SCRIPT -->
+// TIMER SCRIPT 
   var timeLeft = 1200; // 20 minutes
   var timerInterval;
 
