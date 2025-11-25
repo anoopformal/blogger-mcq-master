@@ -1,28 +1,5 @@
-// Existing timer and test submission logic
-// var correctAnswers = {
-// q1: "c",
-// q2: "b",
-// q3: "b",
-// q4: "b",
-// q5: "d",
-// q6: "d",
-// q7: "c",
-// q8: "d",
-// q9: "c",
-// q10: "b",
-// q11: "b",
-// q12: "d",
-// q13: "a",
-// q14: "b",
-// q15: "c",
-// q16: "c",
-// q17: "b",
-// q18: "c",
-// q19: "a",
-// q20: "c"
-// };
 
-// TIMER SCRIPT
+// ------------------ TIMER SCRIPT ------------------
 var timeLeft = 1200; // 20 minutes
 var timerInterval;
 
@@ -60,16 +37,16 @@ window.addEventListener("scroll", function () {
   }
 });
 
-// Start the timer on page load
+// On page load
 window.onload = function () {
   startTimer();
   enterFullscreen();
-  // hideBloggerControls();
+  hideBloggerControls();
 };
 
+
+// ------------------ SUBMIT TEST FUNCTION ------------------
 function submitTest() {
-  alert("Are you sure to final Submit?");
-  clearInterval(timerInterval);
   if (!confirm("Are you sure you want to submit the test?")) return;
 
   exitFullscreen();
@@ -86,7 +63,7 @@ function submitTest() {
     options.forEach(option => {
       let label = option.nextElementSibling;
 
-      // Reset styles
+      // Reset
       label.style.backgroundColor = "";
       label.style.borderColor = "";
 
@@ -94,16 +71,16 @@ function submitTest() {
         selected = true;
       }
 
-      // Highlight correct answer
+      // Correct answer
       if (option.value === correctAnswers[q]) {
         label.style.backgroundColor = "green";
         label.style.borderColor = "#008000";
       }
 
-      // Highlight wrong answer
+      // Wrong selected
       if (option.checked && option.value !== correctAnswers[q]) {
         label.style.backgroundColor = "red";
-        label.style.borderColor = "ff0000";
+        label.style.borderColor = "#ff0000";
       }
     });
 
@@ -120,12 +97,12 @@ function submitTest() {
   let wrong = attempted - score;
   let percentage = ((score / total) * 100).toFixed(2);
 
-  // Update performance summary UI
-  document.getElementById("score-circle").innerText = (score * 5) - wrong + " / " + total * 5;
+  // Update UI
+  document.getElementById("score-circle").innerText = (score * 5) - wrong + " / " + (total * 5);
   document.getElementById("attempted-circle").innerText = attempted + " / " + total;
   document.getElementById("accuracy-circle").innerText = percentage + "%";
 
-  // Dummy percentile + rank 
+  // Dummy percentile/rank
   document.getElementById("percentile-circle").innerText = percentage;
   document.getElementById("rank-circle").innerText = (percentage > 50 ? "12 / 100" : "54 / 100");
 
@@ -138,6 +115,8 @@ function submitTest() {
     "<b>Percentage:</b> " + percentage + "%";
 }
 
+
+// ------------------ RADIO DESELECT SCRIPT ------------------
 document.addEventListener("DOMContentLoaded", function () {
   const optionContainers = document.querySelectorAll('.option-container');
 
@@ -156,7 +135,8 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// Fullscreen functions
+
+// ------------------ FULLSCREEN FUNCTIONS ------------------
 function enterFullscreen() {
   const elem = document.documentElement;
   if (elem.requestFullscreen) elem.requestFullscreen();
@@ -170,14 +150,29 @@ function exitFullscreen() {
   else if (document.msExitFullscreen) document.msExitFullscreen();
 }
 
-// Disable right-click
+
+// ------------------ DISABLE RIGHT-CLICK ------------------
 document.addEventListener("contextmenu", function (e) {
   e.preventDefault();
 });
 
-// Hide Blogger UI (optional)
+
+// ------------------ TAB SWITCH DETECTION ------------------
+document.addEventListener("visibilitychange", function () {
+  if (document.hidden) {
+    alert("You left the test. Submitting now.");
+    submitTest();
+    window.location.href = "about:blank";
+  }
+});
+
+
+// ------------------ HIDE BLOGGER DEFAULT ELEMENTS ------------------
 function hideBloggerControls() {
-  const elementsToHide = ["header", "footer", "nav", "aside", ".sidebar", ".header", ".footer"];
+  const elementsToHide = [
+    "header", "footer", "nav", "aside",
+    ".sidebar", ".header", ".footer"
+  ];
   elementsToHide.forEach(sel => {
     document.querySelectorAll(sel).forEach(el => el.style.display = "none");
   });
