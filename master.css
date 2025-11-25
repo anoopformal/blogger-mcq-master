@@ -1,99 +1,118 @@
-<style>
-  input[type="radio"] {
+/* master.css - paste this file into your GitHub repo and serve via jsdelivr */
+* { box-sizing: border-box; }
+html, body { max-width: 100%; overflow-x: hidden; }
+
+input[type="radio"] {
   opacity: 0;
   position: absolute;
+ 
+}
+
+.mb-3 { margin-top: 40px; }
+
+.option-container {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+.option-container:hover { background-color: #eaeaea; }
+
+.option-label {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.option-container input:checked + .option-label {
+  background-color: #55e555;
+  border-color: green;
+}
+
+.summary-container {
+  max-width: 100%;
+  width: 95%;
+  margin: 40px auto;
+}
+
+.summary-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.item { flex: 1 1 150px; margin: 10px; }
+
+.circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  transition: transform 0.2s ease;
+}
+.circle:hover { transform: scale(1.05); }
+
+.rank { background: #e91e63; }
+.score { background: #9c27b0; }
+.attempted { background: #00bcd4; }
+.accuracy { background: #4caf50; }
+.percentile { background: #673ab7; }
+
+.label { margin-top: 5px; font-size: 14px; color: #555; }
+
+#timer {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  font-weight: bold;
+  color: green;
+  background: #f9f9f9;
+  padding: 10px 14px;
+  border-radius: 8px;
+  display: block;
+  box-shadow: 0 0 8px rgba(0,0,0,0.15);
+  z-index: 9999;
+}
+
+button {
+  display: block;
+  margin: 30px auto;
+  padding: 10px 25px;
+  background-color: #2196F3;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+button:hover { background-color: #1976D2; }
+
+@media (max-width: 600px) {
+  .summary-box { flex-direction: column; }
+  .circle { width: 70px; height: 70px; font-size: 14px; }
+}
+/* Fix for deselectable radio behavior */
+.option-label {
   pointer-events: none;
 }
 
-  .mb-3 {
-    margin-top: 50px;
-  }
-
-  .option-container {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-
-  .option-container:hover {
-    background-color: #cacaca;
-  }
-
-  input[type="radio"] {
-    margin-right: 10px;
-  }
-
-  input[type="radio"] {
-    display: block;
-  }
-
-  .option-label {
-    display: block;
-    width: 100%;
-  }
-
-  .option-container input:checked + .option-label {
-    background-color: #55e555;
-    border-color: green;
-  }
-
-  .option-label {
-    cursor: pointer;
-    display: block;
-    padding: 10px;
-    border-radius: 6px;
-  }
-    .summary-container {
-      max-width: 1000px;
-      margin: auto;
-    }
-  
-    .summary-box {
-      display: flex;
-      justify-content: space-between;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 20px 5px rgba(0,0,0,0.1);
-    }
-
-    .item {
-      flex: 1;
-      text-align: center;
-      padding: 20px;
-    }
-
-    .item:not(:last-child) {
-      border-right: 1px solid #eee;
-    }
-
-    .circle {
-      width: 80px;
-      height: 80px;
-      border-radius: 80%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: auto;
-      color: white;
-      font-weight: bold;
-      font-size: 16px;
-    }
-
-    .rank { background: #e91e63; }
-    .score { background: #9c27b0; }
-    .attempted { background: #00bcd4; }
-    .accuracy { background: #4caf50; }
-    .percentile { background: #673ab7; }
-
-    .label {
-      margin-top: 8px;
-      font-size: 14px;
-      color: #777;
-    }
-</style>
+.option-container {
+  pointer-events: auto;
+}
