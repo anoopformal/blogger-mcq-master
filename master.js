@@ -1,16 +1,15 @@
-<script type="text/javascript">
 // Existing timer and test submission logic
 // var correctAnswers = {
 // q1: "c",
-//   q2: "b",
-//   q3: "b",
-//   q4: "b",
-//   q5: "d",
-//   q6: "d",
-//   q7: "c",
-//   q8: "d",
-//   q9: "c",
-//   q10: "b",
+// q2: "b",
+// q3: "b",
+// q4: "b",
+// q5: "d",
+// q6: "d",
+// q7: "c",
+// q8: "d",
+// q9: "c",
+// q10: "b",
 // q11: "b",
 // q12: "d",
 // q13: "a",
@@ -21,61 +20,60 @@
 // q18: "c",
 // q19: "a",
 // q20: "c"
-
-
-
-
 // };
 
-// TIMER SCRIPT 
-  var timeLeft = 1200; // 20 minutes
-  var timerInterval;
+// TIMER SCRIPT
+var timeLeft = 1200; // 20 minutes
+var timerInterval;
 
-  function startTimer() {
-    timerInterval = setInterval(function () {
-      var minutes = Math.floor(timeLeft / 60);
-      var seconds = timeLeft % 60;
+function startTimer() {
+  timerInterval = setInterval(function () {
+    var minutes = Math.floor(timeLeft / 60);
+    var seconds = timeLeft % 60;
 
-      var timerEl = document.getElementById("timer");
-      if (timeLeft <= 600) {
-        timerEl.style.color = "red";
-      } else {
-        timerEl.style.color = "green";
-      }
-
-      timerEl.innerText =
-        "Time Left: " +
-        (minutes < 10 ? "0" + minutes : minutes) + ":" +
-        (seconds < 10 ? "0" + seconds : seconds);
-
-      if (timeLeft <= 0) {
-        clearInterval(timerInterval);
-        alert("Time's up!");
-      }
-
-      timeLeft--;
-    }, 1000);
-  }
-
-  // Show timer on scroll
-  window.addEventListener("scroll", function () {
-    var timer = document.getElementById("timer");
-    if (window.scrollY > 0) {
-      timer.style.display = "block";
+    var timerEl = document.getElementById("timer");
+    if (timeLeft <= 600) {
+      timerEl.style.color = "red";
+    } else {
+      timerEl.style.color = "green";
     }
-  });
 
-  // Start the timer when the page loads
-  window.onload = function () {
-    startTimer();
-  };
+    timerEl.innerText =
+      "Time Left: " +
+      (minutes < 10 ? "0" + minutes : minutes) + ":" +
+      (seconds < 10 ? "0" + seconds : seconds);
+
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      alert("Time's up!");
+    }
+
+    timeLeft--;
+  }, 1000);
+}
+
+// Show timer on scroll
+window.addEventListener("scroll", function () {
+  var timer = document.getElementById("timer");
+  if (window.scrollY > 0) {
+    timer.style.display = "block";
+  }
+});
+
+// Start the timer on page load
+window.onload = function () {
+  startTimer();
+  enterFullscreen();
+  // hideBloggerControls();
+};
 
 function submitTest() {
   alert("Are you sure to final Submit?");
- clearInterval(timerInterval);
+  clearInterval(timerInterval);
   if (!confirm("Are you sure you want to submit the test?")) return;
-exitFullscreen();
-clearInterval(timerInterval);
+
+  exitFullscreen();
+  clearInterval(timerInterval);
 
   let score = 0;
   let total = Object.keys(correctAnswers).length;
@@ -102,17 +100,16 @@ clearInterval(timerInterval);
         label.style.borderColor = "#008000";
       }
 
-      // Highlight wrong selected answer
+      // Highlight wrong answer
       if (option.checked && option.value !== correctAnswers[q]) {
         label.style.backgroundColor = "red";
-        label.style.borderColor = "	ff0000";
+        label.style.borderColor = "ff0000";
       }
     });
 
     if (selected) {
       attempted++;
       let selectedOption = document.querySelector(`input[name="${q}"]:checked`);
-      
       if (selectedOption && selectedOption.value === correctAnswers[q]) {
         score++;
       }
@@ -122,12 +119,13 @@ clearInterval(timerInterval);
   let unattempted = total - attempted;
   let wrong = attempted - score;
   let percentage = ((score / total) * 100).toFixed(2);
-  // Update performance summary UI
- document.getElementById("score-circle").innerText = (score*5)-wrong + " / " + total*5;
-  document.getElementById("attempted-circle").innerText = attempted + " / " + total;
-  document.getElementById("accuracy-circle").innerText = percentage+ "%";
 
- // Dummy values for percentile & rank (customize as needed)
+  // Update performance summary UI
+  document.getElementById("score-circle").innerText = (score * 5) - wrong + " / " + total * 5;
+  document.getElementById("attempted-circle").innerText = attempted + " / " + total;
+  document.getElementById("accuracy-circle").innerText = percentage + "%";
+
+  // Dummy percentile + rank 
   document.getElementById("percentile-circle").innerText = percentage;
   document.getElementById("rank-circle").innerText = (percentage > 50 ? "12 / 100" : "54 / 100");
 
@@ -138,33 +136,15 @@ clearInterval(timerInterval);
     "<b>Correct Answers:</b> " + score + "<br>" +
     "<b>Wrong Answers:</b> " + wrong + "<br>" +
     "<b>Percentage:</b> " + percentage + "%";
-  
 }
 
-//window.onload = startTimer;
-  window.onload = function () {
-  startTimer();
-  enterFullscreen();
- // hideBloggerControls();
-};
-//setTimeout(() => {
- // window.open('', '_self').close(); // Try to close tab
- // window.location.href = "about:blank"; // Fallback
-//}, 2000);
-
-</script>
-
-<!-- New script for deselecting radio buttons -->
-<script>
 document.addEventListener("DOMContentLoaded", function () {
   const optionContainers = document.querySelectorAll('.option-container');
 
   optionContainers.forEach(container => {
     const input = container.querySelector('input[type="radio"]');
-    const label = container.querySelector('.option-label');
 
     container.addEventListener('click', function (e) {
-      // Allow deselect if already selected
       if (input.checked) {
         input.checked = false;
         e.stopPropagation();
@@ -175,29 +155,19 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
-  
-  
-  // Enter fullscreen mode on load
+
+// Fullscreen functions
 function enterFullscreen() {
   const elem = document.documentElement;
-  if (elem.requestFullscreen) {
-    elem.requestFullscreen();
-  } else if (elem.webkitRequestFullscreen) {
-    elem.webkitRequestFullscreen();
-  } else if (elem.msRequestFullscreen) {
-    elem.msRequestFullscreen();
-  }
+  if (elem.requestFullscreen) elem.requestFullscreen();
+  else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+  else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
 }
 
-// Exit fullscreen on submit
 function exitFullscreen() {
-  if (document.exitFullscreen) {
-    document.exitFullscreen();
-  } else if (document.webkitExitFullscreen) {
-    document.webkitExitFullscreen();
-  } else if (document.msExitFullscreen) {
-    document.msExitFullscreen();
-  }
+  if (document.exitFullscreen) document.exitFullscreen();
+  else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+  else if (document.msExitFullscreen) document.msExitFullscreen();
 }
 
 // Disable right-click
@@ -205,21 +175,10 @@ document.addEventListener("contextmenu", function (e) {
   e.preventDefault();
 });
 
-// Detect tab switch (user changes tab or minimizes)
-// document.addEventListener("visibilitychange", function () {
-//   if (document.hidden) {
-//     alert("You left the test. Submitting now.");
-//     submitTest();
-//     window.location.href = "about:blank";
-//   }
-// });
-  
-  function hideBloggerControls() {
+// Hide Blogger UI (optional)
+function hideBloggerControls() {
   const elementsToHide = ["header", "footer", "nav", "aside", ".sidebar", ".header", ".footer"];
   elementsToHide.forEach(sel => {
     document.querySelectorAll(sel).forEach(el => el.style.display = "none");
   });
 }
-
-
-</script>
