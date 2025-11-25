@@ -71,19 +71,6 @@
     .item:not(:last-child) {
       border-right: 1px solid #eee;
     }
-#timer {
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  font-weight: bold;
-  color: green;
-  background: #f9f9f9;
-  padding: 10px 14px;
-  border-radius: 8px;
-  display: block;
-  box-shadow: 0 0 8px rgba(0,0,0,0.15);
-  z-index: 9999;
-}
 
 button {
   display: block;
