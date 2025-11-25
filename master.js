@@ -71,8 +71,8 @@ q20: "c"
   };
 
 function submitTest() {
-  //alert("Are you sure to final Submit?");
- // clearInterval(timerInterval);
+  alert("Are you sure to final Submit?");
+ clearInterval(timerInterval);
   if (!confirm("Are you sure you want to submit the test?")) return;
 exitFullscreen();
 clearInterval(timerInterval);
@@ -145,7 +145,7 @@ clearInterval(timerInterval);
   window.onload = function () {
   startTimer();
   enterFullscreen();
-  hideBloggerControls();
+ // hideBloggerControls();
 };
 //setTimeout(() => {
  // window.open('', '_self').close(); // Try to close tab
@@ -206,13 +206,13 @@ document.addEventListener("contextmenu", function (e) {
 });
 
 // Detect tab switch (user changes tab or minimizes)
-document.addEventListener("visibilitychange", function () {
-  if (document.hidden) {
-    alert("You left the test. Submitting now.");
-    submitTest();
-    window.location.href = "about:blank";
-  }
-});
+// document.addEventListener("visibilitychange", function () {
+//   if (document.hidden) {
+//     alert("You left the test. Submitting now.");
+//     submitTest();
+//     window.location.href = "about:blank";
+//   }
+// });
   
   function hideBloggerControls() {
   const elementsToHide = ["header", "footer", "nav", "aside", ".sidebar", ".header", ".footer"];
